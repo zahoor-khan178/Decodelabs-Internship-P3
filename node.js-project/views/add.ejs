@@ -4,145 +4,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>add</title>
+    <title>User Registration</title>
     <link rel="stylesheet" href="/adding.css">
 </head>
 
 <body>
 
     <% if (message) { %>
-
-
-        <div class="delnotification">
+        <div class="notification">
             <%= message %>
         </div>
-
         <% } %>
-            <div class="register">
-                <h1>User Registeration</h1>
 
+            <div class="container">
+                <div class="form-card">
 
+                    <button type="button" class="back-btn" onclick="goToHome()">
+                        ← Back to Users
+                    </button>
 
-                <% if(dataInitial){%>
+                    <h1>User Registration</h1>
 
-                    <form id="userForm" action="/users/edit" method="post">
-                        <input type="hidden" value="<%= user._id  %>" name="_id" id="hiddenid">
+                    <% if(dataInitial){ %>
 
-                        <label for="name">Name</label>
-                        <input type="text" class="short" id="name" name="Name" required value="<%= user.Name %>"
-                            data-initial="<%=  dataInitial.Name %>">
+                        <form id="userForm" action="/users/edit" method="post">
 
-                        <label for="email">Email</label>
-                        <input type="email" class="short" id="email" name="Email" required value="<%= user.Email %>"
-                            data-initial="<%=dataInitial.Email  %>">
+                            <input type="hidden" value="<%= user._id %>" name="_id" id="hiddenid">
 
-                        <label for="password">Password</label>
-                        <input type="text" class="large" id="password" name="Password" required
-                            value="<%= user.Password %>" data-initial="<%= dataInitial.Password %>">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="Name" required value="<%= user.Name %>"
+                                    data-initial="<%= dataInitial.Name %>">
+                            </div>
 
-                        <label for="contact" id="contact-lable">Contact No</label>
-                        <input type="text" class="large" id="contact" name="Contact_No" required
-                            value="<%= user.Contact_No %>" data-initial="<%=dataInitial.Contact_No %>">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="Email" required value="<%= user.Email %>"
+                                    data-initial="<%= dataInitial.Email %>">
+                            </div>
 
-                        <button class="submit" id="submit1" type="submit">update</button>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="text" id="password" name="Password" required value="<%= user.Password %>"
+                                    data-initial="<%= dataInitial.Password %>">
+                            </div>
 
-                    </form>
+                            <div class="form-group">
+                                <label for="contact">Contact Number</label>
+                                <input type="text" id="contact" name="Contact_No" required
+                                    value="<%= user.Contact_No %>" data-initial="<%= dataInitial.Contact_No %>">
+                            </div>
 
-
-                    <%} else {%>
-
-
-                        <form id="userForm" action="/users/create" method="post">
-                            <!-- <input type="hidden" value="<%= user._id ? user._id : '' %>" name="_id" id="hiddenid"> -->
-
-                            <label for="name">Name</label>
-                            <input type="text" class="short" id="name" name="Name" required value="<%= user.Name %>"
-                                data-initial="<%=  user.Name %>">
-
-                            <label for="email">Email</label>
-                            <input type="email" class="short" id="email" name="Email" required value="<%= user.Email %>"
-                                data-initial="<%=user.Email  %>">
-
-                            <label for="password">Password</label>
-                            <input type="text" class="large" id="password" name="Password" required
-                                value="<%= user.Password %>" data-initial="<%= user.Password %>">
-
-                            <label for="contact" id="contact-lable">Contact No</label>
-                            <input type="text" class="large" id="contact" name="Contact_No" required
-                                value="<%= user.Contact_No %>" data-initial="<%=user.Contact_No %>">
-
-                            <button class="submit" id="submit1" type="submit">submit</button>
+                            <button class="btn" id="submit1" type="submit">
+                                Update User
+                            </button>
 
                         </form>
 
+                        <% } else { %>
 
-                        <%}%>
+                            <form id="userForm" action="/users/create" method="post">
 
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="Name" required value="<%= user.Name %>"
+                                        data-initial="<%= user.Name %>">
+                                </div>
 
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="Email" required value="<%= user.Email %>"
+                                        data-initial="<%= user.Email %>">
+                                </div>
 
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="text" id="password" name="Password" required
+                                        value="<%= user.Password %>" data-initial="<%= user.Password %>">
+                                </div>
 
+                                <div class="form-group">
+                                    <label for="contact">Contact Number</label>
+                                    <input type="text" id="contact" name="Contact_No" required
+                                        value="<%= user.Contact_No %>" data-initial="<%= user.Contact_No %>">
+                                </div>
 
+                                <button class="btn" id="submit1" type="submit">
+                                    Create User
+                                </button>
+
+                            </form>
+
+                            <% } %>
+
+                </div>
             </div>
-
-
 
             <script>
 
+                function goToHome() {
+                    window.location.href = "http://localhost:7000/users";
+                }
                 document.addEventListener("DOMContentLoaded", function () {
-                    const hidden = document.getElementById('hiddenid');
 
+                    const hidden = document.getElementById("hiddenid");
 
-                    if (hidden.value && /^[0-9a-fA-F]{24}$/.test(hidden.value)) {
-                        const formInputs = document.querySelectorAll('input[type="text"], input[type="email"]');
-                        const submitButton = document.getElementById('submit1');
-                        const initialInput = Array.from(formInputs).map(input => input.dataset.initial);
+                    if (hidden && hidden.value && /^[0-9a-fA-F]{24}$/.test(hidden.value)) {
+
+                        const formInputs = document.querySelectorAll(
+                            'input[type="text"], input[type="email"]'
+                        );
+
+                        const submitButton = document.getElementById("submit1");
+
+                        const initialValues = Array.from(formInputs).map(
+                            input => input.dataset.initial
+                        );
 
                         function checkForChanges() {
+
                             let hasChanges = false;
 
                             formInputs.forEach((input, index) => {
-                                if (input.value.trim() !== initialInput[index].trim()) {
+
+                                if (
+                                    input.value.trim() !==
+                                    initialValues[index].trim()
+                                ) {
                                     hasChanges = true;
                                 }
                             });
 
                             submitButton.disabled = !hasChanges;
+
                             if (!hasChanges) {
-                                submitButton.style.color = "rgb(227, 221, 221)";
-                                submitButton.style.backgroundColor = "rgb(231, 145, 231)";
-                                submitButton.style.opacity = "0.8";
-                                submitButton.style.boxShadow = "0 0 2px 2px";
+                                submitButton.classList.add("disabled-btn");
                             } else {
-                                submitButton.style.color = "white";
-                                submitButton.style.backgroundColor = "rgb(216, 65, 216)";
-                                submitButton.style.opacity = "1";
-                                submitButton.style.boxShadow = "none";
+                                submitButton.classList.remove("disabled-btn");
                             }
                         }
 
                         checkForChanges();
 
                         formInputs.forEach(input => {
-                            input.addEventListener('input', checkForChanges);
+                            input.addEventListener("input", checkForChanges);
                         });
                     }
 
+                    const notification =
+                        document.querySelector(".notification");
+
+                    if (notification) {
+                        setTimeout(() => {
+                            notification.classList.add("hide");
+                        }, 2500);
+                    }
                 });
-
-
-                const notification = document.getElementsByClassName('delnotification')[0];
-                if (notification) {
-                    setTimeout(() => {
-
-                        notification.style.display = 'none';
-
-                    }, 2000);
-                }
-
             </script>
-
-
-
 
 </body>
 
